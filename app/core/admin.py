@@ -30,7 +30,7 @@ class UserAdmin(BaseUserAdmin):
         (('Personal Info'), {'fields': ('name',)}),
         (
             ('Permissions'),
-            {'fields': ('is_staff', 'is_superuser')}
+            {'fields': ('is_staff', 'is_superuser', 'account_plan')}
         ),
         (('Important dates'), {'fields': ('last_login',)})
     )
@@ -46,5 +46,6 @@ admin.site.register(models.User, UserAdmin)
 admin.site.register(models.AccountPlan)
 admin.site.register(models.BaseImage)
 admin.site.register(models.Thumbnail)
+admin.site.register(models.Link)
 
 # Create superuser for admin use in case it doesn't exist

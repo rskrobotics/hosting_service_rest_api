@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
 from django.contrib.postgres.fields import ArrayField
 from django.conf import settings
 from .validators import validate_file_extension
+from django.core.validators import MaxValueValidator, MinValueValidator
 import uuid
 import os
 
@@ -85,9 +86,12 @@ class Thumbnail(models.Model):
                                    blank=False)
     thumbnail = models.ImageField(blank=False)
     height = models.PositiveIntegerField(blank=False)
+    name = models.CharField(default='Thumbnailname', max_length=150)
 
-# class Link(models.Model):
-#     thumbnail = models.ForeignKey(Thumbnail)
-#     sharing_url = models.URL
-#     duration_time = models.PositiveIntegerField(min=, max=, null=
-#     created_on
+
+class Link(models.Model):
+    thumbnail = models.ForeignKey(Thumbnail, on_delete=models.CASCADE)
+    access_str = models.CharField(max_length=50)
+    created_on = models.DateTimeField(auto_now=True)
+    duration = models.PositiveIntegerField(blank=True, null=True,
+        validators=[MinValueValidator(300), MaxValueValidator(30000)])

@@ -3,6 +3,29 @@ from rest_framework import serializers
 from core import models
 
 
+class LinkSerializer(serializers.ModelSerializer):
+    '''Serializer for Links'''
+
+    def validate(self, data):
+        if data['duration']:
+            if data['duration'] < 300 or data['duration'] > 30000:
+                raise serializers.ValidationError(
+                    "Duration not blank or in range")
+        return data
+
+    class Meta:
+        model = models.Link
+        fields = ('thumbnail', 'duration')
+
+
+class ThumbnailSerializer(serializers.ModelSerializer):
+    '''Serializer for Thumbnails'''
+
+    class Meta:
+        model = models.Thumbnail
+        fields = "__all__"
+
+
 class BaseImageSerializer(serializers.ModelSerializer):
     '''Serializer for BaseImage'''
 
@@ -32,3 +55,9 @@ class UserSerializer(serializers.ModelSerializer):
             user.set_password(password)
             user.save()
         return user
+
+
+class AccountPlanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.AccountPlan
+        fields = "__all__"
