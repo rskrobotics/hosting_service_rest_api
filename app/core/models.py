@@ -16,6 +16,13 @@ def base_image_file_path(instance, filename):
     return os.path.join('uploads/images/', filename)
 
 
+def thumbnail_file_path(instance, filename):
+    '''Generate new filepath for image'''
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+    return os.path.join('uploads/thumbnails/', str(filename))
+
+
 class AccountPlan(models.Model):
     '''Class representing the account subscription plan'''
     name = models.CharField(max_length=15, unique=True)
@@ -67,6 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class BaseImage(models.Model):
+    '''Model for our base image '''
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -82,16 +90,26 @@ class BaseImage(models.Model):
 
 
 class Thumbnail(models.Model):
+    '''Thumbnails created from base image'''
     base_image = models.ForeignKey(BaseImage, on_delete=models.CASCADE,
                                    blank=False)
-    thumbnail = models.ImageField(blank=False)
+    thumbnail = models.ImageField(upload_to=thumbnail_file_path, blank=False)
     height = models.PositiveIntegerField(blank=False)
     name = models.CharField(default='Thumbnailname', max_length=150)
 
+    def __str__(self):
+        return self.name
+
 
 class Link(models.Model):
+    '''Links created for our thumbnails'''
     thumbnail = models.ForeignKey(Thumbnail, on_delete=models.CASCADE)
     access_str = models.CharField(max_length=50)
     created_on = models.DateTimeField(auto_now=True)
     duration = models.PositiveIntegerField(blank=True, null=True,
-        validators=[MinValueValidator(300), MaxValueValidator(30000)])
+                                           validators=[MinValueValidator(300),
+                                                       MaxValueValidator(
+                                                           30000)])
+
+    def __str__(self):
+        return self.access_str
