@@ -10,7 +10,7 @@ router.register('expiring-link', object_related_views.ExpiringLinkViewSet,
                 basename='ExpireLinks')
 router.register('my-thumbnails', object_related_views.MyThumbnails)
 
-app_name = 'hexocean_api'
+app_name = 'hosting_api'
 
 urlpatterns = [
     path('', include(router.urls)),

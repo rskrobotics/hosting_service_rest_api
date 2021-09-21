@@ -1,13 +1,13 @@
 from rest_framework import viewsets, generics, mixins
-from hexocean_api.custom_renderers import JPEGRenderer, PNGRenderer
-from hexocean_api.thumbnailer import Thumbnailer
+from hosting_api.custom_renderers import JPEGRenderer, PNGRenderer
+from hosting_api.thumbnailer import Thumbnailer
 from core.models import BaseImage, Thumbnail, Link, AccountPlan
-from hexocean_api.serializers import BaseImageSerializer, \
+from hosting_api.serializers import BaseImageSerializer, \
     AccountPlanSerializer, BaseImageListSerializer, ExpiringLinkSerializer, \
     ThumbnailSerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from hexocean_api.custom_permissions import CanCreateTempLinks
+from hosting_api.custom_permissions import CanCreateTempLinks
 from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime
@@ -127,7 +127,7 @@ class ExpiringLinkViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
                     'duration'])
 
             return_url = request.build_absolute_uri(
-                reverse('hexocean_api:images',
+                reverse('hosting_api:images',
                         kwargs={'access_str': created_link.access_str}))
 
             return Response({'msg': 'Success', 'Link': return_url},

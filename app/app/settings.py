@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'core',
-    'hexocean_api',
+    'hosting_api',
 ]
 
 MIDDLEWARE = [

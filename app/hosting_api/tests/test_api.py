@@ -10,12 +10,12 @@ def image_upload_url(base_image_id):
     return reverse('images:images-upload', args=[base_image_id])
 
 
-def sample_user(email='test@hexocean.pl', password='testpass'):
+def sample_user(email='test@hostingapi.pl', password='testpass'):
     '''Create a sample user'''
     return get_user_model().objects.create_user(email, password)
 
 
-def sample_superuser(email='test@hexocean.pl', password='testpass'):
+def sample_superuser(email='test@hostingapi.pl', password='testpass'):
     '''Create a sample user'''
     return get_user_model().objects.create_superuser(email, password)
 
@@ -38,7 +38,7 @@ class BaseImageTests(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
-            'rsk@hexocean.pl',
+            'rsk@hostingapi.pl',
             'testpass'
         )
         self.client.force_authenticate(self.user)
